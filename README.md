@@ -1,2 +1,2 @@
 # hackathon
-powered by KEBA
+powered by KEBA 2017
