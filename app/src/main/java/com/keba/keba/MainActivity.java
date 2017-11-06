@@ -77,31 +77,49 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClickQrButton() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.100/")
+                .baseUrl("http://192.168.1.101/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         RetrofitInterface retrofitInterface = retrofit.create(RetrofitInterface.class);
-        Call<SearchRequest> stringCall = retrofitInterface.test2(new SearchRequest("What do you know about alarm 500?", ping));
-        stringCall.enqueue(new Callback<SearchRequest>() {
+        Call<ResponseBody> responseBodyCall = retrofitInterface.test3();
+        responseBodyCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<SearchRequest> call, Response<SearchRequest> response) {
-               // try {
-                   SearchRequest data = response.body();
-                    System.out.println(data);
-                    ping = data.pong;
-                    contentText.setText(data.toString());
-                    //contentText.setText(data.Hello);
-             //   } catch (IOException ie) {
-              //      ie.printStackTrace();
-               // }
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    String data = response.body().string();
+                    contentText.setText(data);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
-            public void onFailure(Call<SearchRequest> call, Throwable t) {
-                contentText.setText("Ohh, no!!");
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
             }
         });
+
+        //Call<SearchRequest> stringCall = retrofitInterface.test2(new SearchRequest("What do you know about alarm 500?", ping));
+//        stringCall.enqueue(new Callback<SearchRequest>() {
+//            @Override
+//            public void onResponse(Call<SearchRequest> call, Response<SearchRequest> response) {
+//               // try {
+//                   SearchRequest data = response.body();
+//                    System.out.println(data);
+//                    ping = data.pong;
+//                    contentText.setText(data.toString());
+//                    //contentText.setText(data.Hello);
+//             //   } catch (IOException ie) {
+//              //      ie.printStackTrace();
+//               // }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<SearchRequest> call, Throwable t) {
+//                contentText.setText("Ohh, no!!");
+//            }
+//        });
 
        // BarcodeIntentIntegrator barcodeIntentIntegrator = new BarcodeIntentIntegrator(this);
        // barcodeIntentIntegrator.initiateScan();

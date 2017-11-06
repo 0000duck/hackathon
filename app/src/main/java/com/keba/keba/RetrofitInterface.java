@@ -25,4 +25,7 @@ public interface RetrofitInterface {
 
     @POST("/test2/")
     Call<SearchRequest> test2(@Body SearchRequest request);
+
+    @GET("/test3/")
+    Call<ResponseBody> test3();
 }
