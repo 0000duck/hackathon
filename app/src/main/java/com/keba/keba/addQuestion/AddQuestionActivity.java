@@ -143,15 +143,20 @@ public class AddQuestionActivity extends AppCompatActivity {
         questionCall.enqueue(new Callback<Question>() {
             @Override
             public void onResponse(Call<Question> call, Response<Question> response) {
-                Toast.makeText(AddQuestionActivity.this, "Added question.", Toast.LENGTH_SHORT).show();
-            }
+                if (response.body() == null) {
+                    Toast.makeText(AddQuestionActivity.this, "Failed to add question.", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(AddQuestionActivity.this, "Added question.", Toast.LENGTH_SHORT).show();
+                }            }
 
             @Override
             public void onFailure(Call<Question> call, Throwable t) {
                 Toast.makeText(AddQuestionActivity.this, "Failed to add question.", Toast.LENGTH_SHORT).show();
             }
         });
-        this.finish();
+
+        finish();
+
     }
 
 
