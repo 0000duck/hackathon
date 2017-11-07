@@ -4,7 +4,6 @@ import com.keba.keba.data.Question;
 import com.keba.keba.data.request.AlarmRequest;
 import com.keba.keba.data.request.NewAnswerRequest;
 import com.keba.keba.data.request.SearchRequest;
-import com.keba.keba.data.Test;
 import com.keba.keba.data.response.SearchResponse;
 
 import okhttp3.ResponseBody;
@@ -23,8 +22,8 @@ public interface RetrofitInterface {
     @GET("/test/{id}")
     Call<ResponseBody> jsonPlaceHolder(@Path("id") String id);
 
-    @GET("/test/")
-    Call<Test> test();
+    /*@GET("/test/")
+    Call<Test> test();*/
 
     @POST("/test2/")
     Call<SearchRequest> test2(@Body SearchRequest request);
