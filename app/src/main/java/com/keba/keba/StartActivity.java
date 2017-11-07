@@ -17,6 +17,7 @@ import com.keba.keba.data.Alarm;
 import com.keba.keba.data.QR;
 import com.keba.keba.data.Question;
 import com.keba.keba.data.request.AlarmRequest;
+import com.keba.keba.data.response.AllResponse;
 import com.keba.keba.data.response.SearchResponse;
 import com.keba.keba.questionList.QuestionItemClickListener;
 import com.keba.keba.questionList.QuestionRecyclerViewAdapter;
@@ -47,27 +48,20 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        QR qr = new QR();
-        qr.alarm = new Alarm();
-        qr.alarm.id = "EnergyMeter1.erResponseTimeout";
-        qr.alarm.category = "WARNING";
-        qr.alarm.text = "No response from energy meter - communication to energy meter stopped.";
-        qr.alarm.time = "2017-11-06 03:23";
-
-        Backend.getInstance().queryByQR(new AlarmRequest("en", qr))
-                .enqueue(new Callback<SearchResponse>() {
+        Backend.getInstance().allQuestions()
+                .enqueue(new Callback<AllResponse>() {
                     @Override
-                    public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                        SearchResponse resp = response.body();
-                        if (resp != null && resp.questions != null) {
-                            recyclerViewAdapter.updateList(resp.questions);
+                    public void onResponse(Call<AllResponse> call, Response<AllResponse> response) {
+                        AllResponse resp = response.body();
+                        if (resp != null) {
+                            recyclerViewAdapter.updateList(resp.getAllQuestions());
                         } else {
                             Toast.makeText(StartActivity.this, "There are no questions! Everyone is happy :-)", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<SearchResponse> call, Throwable t) {
+                    public void onFailure(Call<AllResponse> call, Throwable t) {
                         Toast.makeText(StartActivity.this, "Failed to query questsions...", Toast.LENGTH_SHORT).show();
                     }
                 });

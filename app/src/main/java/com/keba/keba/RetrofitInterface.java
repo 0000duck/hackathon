@@ -4,6 +4,7 @@ import com.keba.keba.data.Question;
 import com.keba.keba.data.request.AlarmRequest;
 import com.keba.keba.data.request.NewAnswerRequest;
 import com.keba.keba.data.request.SearchRequest;
+import com.keba.keba.data.response.AllResponse;
 import com.keba.keba.data.response.SearchResponse;
 
 import okhttp3.ResponseBody;
@@ -45,4 +46,7 @@ public interface RetrofitInterface {
 
     @POST("/a1")
     Call<ResponseBody> newAnswer(@Body NewAnswerRequest request);
+
+    @GET("/all1")
+    Call<AllResponse> allQuestions();
 }
