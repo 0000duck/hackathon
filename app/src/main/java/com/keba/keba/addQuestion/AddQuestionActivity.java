@@ -1,8 +1,10 @@
 package com.keba.keba.addQuestion;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -124,9 +126,12 @@ public class AddQuestionActivity extends AppCompatActivity {
     @OnClick(R.id.activity_addquestion_save)
     public void onClickSaveButton(View view) {
 
+        // get user name
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String userName = sharedPreferences.getString("PREF_USER_NAME", "");
+
         String titleStr = questionTitleView.getText().toString();
         String bodyStr = questionBodyView.getText().toString();
-        // qrStr
 
         // String id, List<Tag> tags, int votes, String title, Body body, String author, Date time, String langId, QR qr
         QR qr = null;
@@ -138,7 +143,7 @@ public class AddQuestionActivity extends AppCompatActivity {
         b.mime = "text";
         b.content = bodyStr;
 
-        Question question = new Question("ToTest", Arrays.<Tag>asList(), 0, titleStr, b, "User123", new Date(), "en", qr);
+        Question question = new Question("ToTest", Arrays.<Tag>asList(), 0, titleStr, b, userName, new Date(), "en", qr);
         Call<Question> questionCall = Backend.getInstance().newQuestion(question);
         questionCall.enqueue(new Callback<Question>() {
             @Override
