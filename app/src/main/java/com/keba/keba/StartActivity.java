@@ -6,12 +6,15 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
+import com.keba.keba.addQuestion.AddQuestionActivity;
 import com.keba.keba.questionList.Question;
 import com.keba.keba.questionList.QuestionItemClickListener;
 import com.keba.keba.questionList.QuestionRecyclerViewAdapter;
-import com.keba.keba.video.AddVideoActivity;
+import com.keba.keba.showQuestion.ShowQuestionActivity;
 
 import java.util.ArrayList;
 
@@ -72,9 +75,27 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
 
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_settings:
+                return true;
+        };
+        return super.onOptionsItemSelected(item);
+    }
+
+
     @OnClick(R.id.activity_start_add)
     public void onClickAddButton(View view) {
-        Intent intent = new Intent(this, AddVideoActivity.class);
+        Intent intent = new Intent(this, AddQuestionActivity.class);
         startActivity(intent);
     }
 
@@ -87,6 +108,8 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
     }
 
     @Override public void onItemClick(long id) {
-
+        Intent intent = new Intent(this, ShowQuestionActivity.class);
+        intent.putExtra(ShowQuestionActivity.KEY_QUESTION_ID, 0);
+        startActivity(intent);
     }
 }
