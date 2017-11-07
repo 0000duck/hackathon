@@ -18,6 +18,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.
     @BindView(R.id.viewholder_question_title) TextView titleText;
     @BindView(R.id.viewholder_question_date) TextView dateText;
     @BindView(R.id.viewholder_question_tags) TextView tagsText;
+    @BindView(R.id.viewholder_question_author) TextView authorText;
 
     private QuestionItemClickListener questionItemClickListener;
 

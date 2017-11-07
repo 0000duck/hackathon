@@ -72,6 +72,7 @@ public class QuestionRecyclerViewAdapter extends RecyclerView.Adapter<QuestionVi
         holder.titleText.setText(question.title);
         holder.dateText.setText(question.time);
         holder.tagsText.setText(question.tags != null ? join(question.tags) : "");
+        holder.authorText.setText(question.author);
 
         holder.itemView.setTag((long)position);
 

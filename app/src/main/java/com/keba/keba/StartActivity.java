@@ -31,8 +31,10 @@ import com.keba.keba.questionList.QuestionItemClickListener;
 import com.keba.keba.questionList.QuestionRecyclerViewAdapter;
 import com.keba.keba.settings.SettingsActivity;
 import com.keba.keba.showQuestion.ShowQuestionActivity;
+import com.keba.keba.util.QuestionByDateComparator;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -73,7 +75,7 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
                     public void onResponse(Call<AllResponse> call, Response<AllResponse> response) {
                         AllResponse resp = response.body();
                         if (resp != null) {
-                            recyclerViewAdapter.updateList(lastQuestions = resp.getAllQuestions());
+                            updateList(resp.getAllQuestions());
                         } else {
                             Toast.makeText(StartActivity.this, "There are no questions! Everyone is happy :-)", Toast.LENGTH_SHORT).show();
                         }
@@ -114,6 +116,13 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
             recyclerViewLayoutManager.onRestoreInstanceState(layoutManagerState);
         }
 
+    }
+
+    public void updateList(List<Question> questions) {
+        // sort it
+        Collections.sort(questions, new QuestionByDateComparator());
+        // display it
+        recyclerViewAdapter.updateList(lastQuestions = questions);
     }
 
 
@@ -175,8 +184,7 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
                                     public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                                         SearchResponse resp = response.body();
                                         if (resp != null && resp.questions != null) {
-                                            lastQuestions = resp.questions;
-                                            recyclerViewAdapter.updateList(resp.questions);
+                                            updateList(resp.questions);
                                         }
                                     }
 
