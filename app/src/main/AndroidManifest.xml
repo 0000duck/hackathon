@@ -20,6 +20,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".settings.SettingsActivity">
+
+        </activity>
+
         <activity
             android:name=".DebugActivity"
             android:label="@string/app_name"

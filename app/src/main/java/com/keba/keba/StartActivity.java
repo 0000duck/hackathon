@@ -14,6 +14,7 @@ import com.keba.keba.addQuestion.AddQuestionActivity;
 import com.keba.keba.questionList.Question;
 import com.keba.keba.questionList.QuestionItemClickListener;
 import com.keba.keba.questionList.QuestionRecyclerViewAdapter;
+import com.keba.keba.settings.SettingsActivity;
 import com.keba.keba.showQuestion.ShowQuestionActivity;
 
 import java.util.ArrayList;
@@ -87,7 +88,8 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
-                return true;
+                Intent i = new Intent(this, SettingsActivity.class);
+                startActivity(i);
         };
         return super.onOptionsItemSelected(item);
     }
