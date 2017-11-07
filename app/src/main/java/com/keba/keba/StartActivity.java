@@ -11,7 +11,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.keba.keba.addQuestion.AddQuestionActivity;
-import com.keba.keba.questionList.Question;
+import com.keba.keba.backend.Backend;
+import com.keba.keba.data.Alarm;
+import com.keba.keba.data.QR;
+import com.keba.keba.data.Question;
+import com.keba.keba.data.request.AlarmRequest;
+import com.keba.keba.data.response.SearchResponse;
 import com.keba.keba.questionList.QuestionItemClickListener;
 import com.keba.keba.questionList.QuestionRecyclerViewAdapter;
 import com.keba.keba.showQuestion.ShowQuestionActivity;
@@ -20,6 +25,9 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class StartActivity extends AppCompatActivity implements QuestionItemClickListener {
 
@@ -37,26 +45,39 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        QR qr = new QR();
+        qr.alarm = new Alarm();
+        qr.alarm.id = "EnergyMeter1.erResponseTimeout";
+        qr.alarm.category = "WARNING";
+        qr.alarm.text = "No response from energy meter - communication to energy meter stopped.";
+        qr.alarm.time = "2017-11-06 03:23";
+
+        Backend.getInstance().queryByQR(new AlarmRequest("en", qr))
+                .enqueue(new Callback<SearchResponse>() {
+                    @Override
+                    public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                        SearchResponse resp = response.body();
+                        if (resp != null && resp.questions != null) {
+                            recyclerViewAdapter.updateList(resp.questions);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SearchResponse> call, Throwable t) {
+
+                    }
+                });
+
+
+        /*
         Question question = new Question();
         question.date = "26.9.2017";
         question.score = 15;
         question.tags = "Keba, Linz";
         question.title = "Will we win this contest?";
+        */
 
         ArrayList<Question> list = new ArrayList<>();
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
-        list.add(question);
 
         // set up ListAdapter and RecyclerView
         recyclerViewAdapter = new QuestionRecyclerViewAdapter(this,this);

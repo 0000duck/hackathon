@@ -7,8 +7,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.keba.keba.R;
+import com.keba.keba.data.Question;
+import com.keba.keba.data.Tag;
 
 import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -18,7 +21,7 @@ public class QuestionRecyclerViewAdapter extends RecyclerView.Adapter<QuestionVi
 
     private Context context;
     private QuestionItemClickListener questionItemClickListener;
-    private ArrayList<Question> questionList;
+    private List<Question> questionList;
 
     public QuestionRecyclerViewAdapter(Context context, QuestionItemClickListener questionItemClickListener) {
         this.context = context;
@@ -30,7 +33,7 @@ public class QuestionRecyclerViewAdapter extends RecyclerView.Adapter<QuestionVi
     // Cursor
     //////////////////////////////
 
-    public void updateList(ArrayList<Question> questionList) {
+    public void updateList(List<Question> questionList) {
         this.questionList = questionList;
         notifyDataSetChanged(); // updates RecyclerView
     }
@@ -65,15 +68,26 @@ public class QuestionRecyclerViewAdapter extends RecyclerView.Adapter<QuestionVi
         Question question = questionList.get(position);
 
         // tag text
-        holder.scoreText.setText(String.valueOf(question.score));
+        holder.scoreText.setText(String.valueOf(question.votes));
         holder.titleText.setText(question.title);
-        holder.dateText.setText(question.date);
-        holder.tagsText.setText(question.tags);
+        holder.dateText.setText(question.time);
+        holder.tagsText.setText(question.tags != null ? join(question.tags) : "");
 
         holder.itemView.setTag((long)position);
 
     }
 
+    public String join(List<Tag> tags) {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < tags.size(); i++) {
+            Tag tag = tags.get(i);
+            builder.append(tag.key);
 
+            if (i < tags.size() - 1) {
+                builder.append(", ");
+            }
+        }
+        return builder.toString();
+    }
 
 }
