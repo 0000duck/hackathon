@@ -14,9 +14,6 @@ import android.widget.Toast;
 
 import com.keba.keba.BarcodeUtil.BarcodeIntentIntegrator;
 import com.keba.keba.BarcodeUtil.BarcodeIntentResult;
-import com.keba.keba.Data.SearchRequest;
-import com.keba.keba.Data.Test;
-import com.keba.keba.Data.Test2;
 
 import java.io.IOException;
 
