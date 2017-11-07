@@ -56,14 +56,15 @@
         android:id="@+id/activity_addquestion_edittitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:scrollbars="vertical"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:gravity="top"
+        android:hint="Your question?"
         android:inputType="textMultiLine|textCapSentences"
         android:lines="1"
-        android:hint="Your question?"
-        android:gravity="top"/>
+        android:scrollbars="vertical"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/activity_addquestion_editbody"

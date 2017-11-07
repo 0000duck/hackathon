@@ -12,6 +12,7 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 import com.keba.keba.R;
+import com.keba.keba.backend.Backend;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,7 +47,7 @@ public class AddVideoActivity extends AppCompatActivity {
 //        SimpleExoPlayer player = ExoPlayerFactory.newSimpleInstance(this, trackSelector);
 
 
-        videoView.setVideoPath("http://192.168.1.101/keba_video1.mp4");
+        videoView.setVideoPath("http://" + Backend.IP + "/keba_video1_wo.mp4");
 
         MediaController mediaController = new MediaController(this);
         mediaController.setAnchorView(videoView);

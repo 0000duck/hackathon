@@ -2,6 +2,7 @@ package com.keba.keba.data;
 
 import com.keba.keba.util.DateConverter;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -9,7 +10,7 @@ import java.util.List;
  * Created by spp on 07.11.2017.
  */
 
-public class Question {
+public class Question implements Serializable {
     public String id;
     public List<Tag> tags;
     public int votes;

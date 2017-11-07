@@ -12,8 +12,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.keba.keba.addQuestion.AddQuestionActivity;
 import com.keba.keba.backend.Backend;
 import com.keba.keba.barcodeUtil.BarcodeIntentIntegrator;
@@ -30,6 +33,7 @@ import com.keba.keba.settings.SettingsActivity;
 import com.keba.keba.showQuestion.ShowQuestionActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,9 +49,12 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
     @BindView(R.id.activity_start_searchEdit) EditText searchEditText;
     @BindView(R.id.activity_start_searchButton) ImageButton searchButton;
     @BindView(R.id.activity_start_qrButton) ImageButton qrButton;
+    @BindView(R.id.progressBar) ProgressBar progressBar;
 
     private QuestionRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
+    private String qrScanStr;
+    private List<Question> lastQuestions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,20 +66,24 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
+        progressBar.setVisibility(View.VISIBLE);
         Backend.getInstance().allQuestions()
                 .enqueue(new Callback<AllResponse>() {
                     @Override
                     public void onResponse(Call<AllResponse> call, Response<AllResponse> response) {
                         AllResponse resp = response.body();
                         if (resp != null) {
-                            recyclerViewAdapter.updateList(resp.getAllQuestions());
+                            recyclerViewAdapter.updateList(lastQuestions = resp.getAllQuestions());
                         } else {
                             Toast.makeText(StartActivity.this, "There are no questions! Everyone is happy :-)", Toast.LENGTH_SHORT).show();
                         }
+
+                        progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Call<AllResponse> call, Throwable t) {
+                        progressBar.setVisibility(View.GONE);
                         Toast.makeText(StartActivity.this, "Failed to query questsions...", Toast.LENGTH_SHORT).show();
                     }
                 });
@@ -130,29 +141,7 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
         String searchStr = searchEditText.getText().toString();
         if(!searchStr.isEmpty()) {
 
-            // TODO welche Parameter müssen hier übergeben werden?
-            QR qr = new QR();
-            qr.alarm = new Alarm();
-            qr.alarm.id = "EnergyMeter1.erResponseTimeout";
-            qr.alarm.category = "WARNING";
-            qr.alarm.text = "No response from energy meter - communication to energy meter stopped.";
-            qr.alarm.time = "2017-11-06 03:23";
-
-            Backend.getInstance().queryByQR(new AlarmRequest("en", qr))
-                    .enqueue(new Callback<SearchResponse>() {
-                        @Override
-                        public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
-                            SearchResponse resp = response.body();
-                            if (resp != null && resp.questions != null) {
-                                recyclerViewAdapter.updateList(resp.questions);
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<SearchResponse> call, Throwable t) {
-
-                        }
-                    });
+            // TODO Search by text
 
         }
     }
@@ -172,9 +161,31 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
                 BarcodeIntentResult scanResult = BarcodeIntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
                 if (scanResult != null) {
                     if(!scanResult.getContents().equals("null")){
-
+                        qrScanStr = scanResult.getContents();
                         // TODO was soll passieren, wenn ein qr code gelesen wurde?
+                        QR qr = null;
+                        if (qrScanStr != null) {
+                            Gson gson = new GsonBuilder().create();
+                            qr = gson.fromJson(qrScanStr, QR.class);
+                        }
 
+                        Backend.getInstance().queryByQR(new AlarmRequest("en", qr))
+                                .enqueue(new Callback<SearchResponse>() {
+                                    @Override
+                                    public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                                        SearchResponse resp = response.body();
+                                        if (resp != null && resp.questions != null) {
+                                            lastQuestions = resp.questions;
+                                            recyclerViewAdapter.updateList(resp.questions);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<SearchResponse> call, Throwable t) {
+                                        t.printStackTrace();
+
+                                    }
+                                });
                     }
                 }
                 break;
@@ -199,7 +210,11 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
 
     @Override public void onItemClick(long id) {
         Intent intent = new Intent(this, ShowQuestionActivity.class);
-        intent.putExtra(ShowQuestionActivity.KEY_QUESTION_ID, 0);
-        startActivity(intent);
+
+        if (lastQuestions != null && id >= 0 && id < lastQuestions.size() ) {
+            Question question = lastQuestions.get((int) id);
+            intent.putExtra(ShowQuestionActivity.KEY_QUESTION_ID, question);
+            startActivity(intent);
+        }
     }
 }

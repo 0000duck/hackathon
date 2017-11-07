@@ -1,10 +1,12 @@
 package com.keba.keba.data;
 
+import java.io.Serializable;
+
 /**
  * Created by spp on 07.11.2017.
  */
 
-public class Answer {
+public class Answer  implements Serializable {
     public int votes;
     public String title;
     public Body body;
