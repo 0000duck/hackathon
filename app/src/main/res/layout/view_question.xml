@@ -6,11 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageButton
+    <ImageView
         android:id="@+id/view_thumb_up"
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_action_thumb_up"
@@ -33,11 +32,10 @@
         app:layout_constraintStart_toStartOf="@+id/view_thumb_up"
         app:layout_constraintTop_toBottomOf="@+id/view_thumb_up"/>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/view_thumb_down"
-        style="?android:attr/buttonBarButtonStyle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_action_thumb_down"
         android:tint="@color/colorGrey"
