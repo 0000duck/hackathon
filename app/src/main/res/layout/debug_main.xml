@@ -9,10 +9,20 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="512dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:context="com.keba.keba.MainActivity"
         tools:showIn="@layout/activity_main">
+
+        <Button
+            android:id="@+id/button_currentDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="136dp"
+            android:layout_marginStart="176dp"
+            android:text="Current date"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/main_contentText"
@@ -24,15 +34,51 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <TextView
+            android:id="@+id/main_qrCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="146dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="81dp"
+            android:text="TextView"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/main_contentText"
+            app:layout_constraintVertical_bias="0.0"/>
+
         <Button
             android:id="@+id/button_createQuestion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="52dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginBottom="216dp"
+            android:layout_marginStart="176dp"
             android:text="Create Question"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/editText_questionId"
+            android:layout_width="356dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="44dp"
+            android:ems="10"
+            android:hint="questionId"
+            android:inputType="textPersonName"
+            android:text="C:\\Hackaton\\q\\alarm\\EnergyMeter1.erResponseTimeout\\2017_11_07_02_01Fabian123"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/button_postAnswer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:text="Post answer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editText_questionId"/>
 
     </android.support.constraint.ConstraintLayout>
 

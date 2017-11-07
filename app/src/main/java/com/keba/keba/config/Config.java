@@ -1,4 +1,4 @@
-package com.keba.keba.Config;
+package com.keba.keba.config;
 
 /**
  * Created by Sparrow on 11/6/2017.

@@ -1,10 +1,9 @@
-package com.keba.keba.AddQuestion;
+package com.keba.keba.addQuestion;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.speech.RecognizerIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -16,11 +15,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.VideoView;
 
-import com.keba.keba.BarcodeUtil.BarcodeIntentIntegrator;
-import com.keba.keba.BarcodeUtil.BarcodeIntentResult;
+import com.keba.keba.barcodeUtil.BarcodeIntentIntegrator;
+import com.keba.keba.barcodeUtil.BarcodeIntentResult;
 import com.keba.keba.R;
-
-import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

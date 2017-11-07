@@ -1,8 +1,7 @@
-package com.keba.keba.QuestionList;
+package com.keba.keba.questionList;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keba.keba.R;

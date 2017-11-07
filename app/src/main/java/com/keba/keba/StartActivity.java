@@ -8,11 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.keba.keba.AddQuestion.AddQuestionActivity;
-import com.keba.keba.QuestionList.Question;
-import com.keba.keba.QuestionList.QuestionItemClickListener;
-import com.keba.keba.QuestionList.QuestionRecyclerViewAdapter;
-import com.keba.keba.Video.AddVideoActivity;
+import com.keba.keba.questionList.Question;
+import com.keba.keba.questionList.QuestionItemClickListener;
+import com.keba.keba.questionList.QuestionRecyclerViewAdapter;
+import com.keba.keba.video.AddVideoActivity;
 
 import java.util.ArrayList;
 

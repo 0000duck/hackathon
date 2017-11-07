@@ -1,4 +1,4 @@
-package com.keba.keba.BarcodeUtil;
+package com.keba.keba.barcodeUtil;
 
 /**
  * Created by Sparrow on 10/17/2017.

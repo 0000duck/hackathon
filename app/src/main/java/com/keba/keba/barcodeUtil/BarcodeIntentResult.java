@@ -1,4 +1,4 @@
-package com.keba.keba.BarcodeUtil;
+package com.keba.keba.barcodeUtil;
 
 /*
  * Copyright 2009 ZXing authors

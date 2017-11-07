@@ -9,7 +9,7 @@ import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayer.Provider;
 import com.google.android.youtube.player.YouTubePlayerView;
-import com.keba.keba.Config.Config;
+import com.keba.keba.config.Config;
 
 public class VideoTest extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
 

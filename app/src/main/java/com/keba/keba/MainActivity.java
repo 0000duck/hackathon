@@ -3,10 +3,8 @@ package com.keba.keba;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.AlarmClock;
 import android.speech.RecognizerIntent;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -15,16 +13,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.keba.keba.BarcodeUtil.BarcodeIntentIntegrator;
-import com.keba.keba.BarcodeUtil.BarcodeIntentResult;
-import com.keba.keba.Data.SearchRequest;
-import com.keba.keba.Data.Test;
-import com.keba.keba.Data.Test2;
+import com.keba.keba.barcodeUtil.BarcodeIntentIntegrator;
+import com.keba.keba.barcodeUtil.BarcodeIntentResult;
 
 import java.io.IOException;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
