@@ -19,6 +19,7 @@ public class Question {
     public String time;
     public String langId;
     public QR qr;
+    public List<Answer> answers;
 
     public Question() {
     }

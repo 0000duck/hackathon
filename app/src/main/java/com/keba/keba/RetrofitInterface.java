@@ -31,15 +31,18 @@ public interface RetrofitInterface {
     @GET("/test3/")
     Call<ResponseBody> test3();
 
-    @POST("/test6/")
+    @POST("/test7/")
     Call<ResponseBody> queryByQRResponseBody(@Body AlarmRequest request);
 
-    @POST("/test6/")
+    @POST("/test7/")
     Call<SearchResponse> queryByQR(@Body AlarmRequest request);
 
     @POST("/q2")
-    Call<ResponseBody> newQuestion(@Body Question question);
+    Call<ResponseBody> newQuestionResponseBody(@Body Question question);
 
-    @POST("/answer")
+    @POST("/q2")
+    Call<Question> newQuestion(@Body Question question);
+
+    @POST("/a1")
     Call<ResponseBody> newAnswer(@Body NewAnswerRequest request);
 }

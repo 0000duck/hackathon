@@ -7,11 +7,11 @@ import com.keba.keba.data.Answer;
  */
 
 public class NewAnswerRequest {
-    public String qId;
+    public String id;
     public Answer answer;
 
-    public NewAnswerRequest(String qId, Answer answer) {
-        this.qId = qId;
+    public NewAnswerRequest(String id, Answer answer) {
+        this.id = id;
         this.answer = answer;
     }
 }

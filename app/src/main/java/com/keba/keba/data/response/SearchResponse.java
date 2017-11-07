@@ -1,7 +1,5 @@
 package com.keba.keba.data.response;
 
-import android.icu.text.IDNA;
-
 import com.keba.keba.data.Information;
 import com.keba.keba.data.Question;
 
