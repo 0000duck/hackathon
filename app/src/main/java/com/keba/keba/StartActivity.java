@@ -9,9 +9,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.keba.keba.addQuestion.AddQuestionActivity;
 import com.keba.keba.backend.Backend;
+import com.keba.keba.barcodeUtil.BarcodeIntentIntegrator;
+import com.keba.keba.barcodeUtil.BarcodeIntentResult;
 import com.keba.keba.data.Alarm;
 import com.keba.keba.data.QR;
 import com.keba.keba.data.Question;
@@ -24,6 +29,7 @@ import com.keba.keba.showQuestion.ShowQuestionActivity;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import retrofit2.Call;
@@ -33,6 +39,10 @@ import retrofit2.Response;
 public class StartActivity extends AppCompatActivity implements QuestionItemClickListener {
 
     private static final String KEY_RECYCLER_VIEW_STATE = "recyclerViewState";
+
+    @BindView(R.id.activity_start_searchEdit) EditText searchEditText;
+    @BindView(R.id.activity_start_searchButton) ImageButton searchButton;
+    @BindView(R.id.activity_start_qrButton) ImageButton qrButton;
 
     private QuestionRecyclerViewAdapter recyclerViewAdapter;
     private RecyclerView.LayoutManager recyclerViewLayoutManager;
@@ -45,6 +55,7 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         QR qr = new QR();
         qr.alarm = new Alarm();
@@ -113,6 +124,65 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
                 startActivity(i);
         };
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @OnClick(R.id.activity_start_searchButton)
+    public void onClickSearchButton(View view) {
+
+        String searchStr = searchEditText.getText().toString();
+        if(!searchStr.isEmpty()) {
+
+            // TODO welche Parameter müssen hier übergeben werden?
+            QR qr = new QR();
+            qr.alarm = new Alarm();
+            qr.alarm.id = "EnergyMeter1.erResponseTimeout";
+            qr.alarm.category = "WARNING";
+            qr.alarm.text = "No response from energy meter - communication to energy meter stopped.";
+            qr.alarm.time = "2017-11-06 03:23";
+
+            Backend.getInstance().queryByQR(new AlarmRequest("en", qr))
+                    .enqueue(new Callback<SearchResponse>() {
+                        @Override
+                        public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
+                            SearchResponse resp = response.body();
+                            if (resp != null && resp.questions != null) {
+                                recyclerViewAdapter.updateList(resp.questions);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<SearchResponse> call, Throwable t) {
+
+                        }
+                    });
+
+        }
+    }
+
+
+    @OnClick(R.id.activity_start_qrButton)
+    public void onClickQrButton(View view) {
+        BarcodeIntentIntegrator barcodeIntentIntegrator = new BarcodeIntentIntegrator(this);
+        barcodeIntentIntegrator.initiateScan();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        super.onActivityResult(requestCode, resultCode, intent);
+
+        switch (requestCode) {
+            case BarcodeIntentIntegrator.REQUEST_CODE:
+                BarcodeIntentResult scanResult = BarcodeIntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+                if (scanResult != null) {
+                    if(!scanResult.getContents().equals("null")){
+
+                        // TODO was soll passieren, wenn ein qr code gelesen wurde?
+
+                    }
+                }
+                break;
+        }
+
     }
 
 

@@ -35,27 +35,38 @@
         android:textSize="16sp"
         tools:ignore="HardcodedText"/>
 
+
+    <TextView
+        android:id="@+id/viewholder_question_tags"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewholder_question_title"
+        android:layout_alignStart="@+id/viewholder_question_title"
+        android:text="Hackathon, Keba, Tabakfabrik"
+        android:textColor="@color/colorGreyDark"
+        android:textSize="12sp"
+        tools:ignore="HardcodedText"/>
+
+
     <TextView
         android:id="@+id/viewholder_question_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/viewholder_question_tags"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/viewholder_question_tags"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="20dp"
         android:text="Tue, 7-11-2017"
         android:textColor="@color/colorGreyDark"
         android:textSize="12sp"
         tools:ignore="HardcodedText"/>
 
     <TextView
-        android:id="@+id/viewholder_question_tags"
+        android:id="@+id/viewholder_question_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/viewholder_question_title"
-        android:layout_below="@+id/viewholder_question_title"
-        android:layout_toStartOf="@+id/viewholder_question_date"
-        android:text="Hackathon, Keba, Tabakfabrik"
+        android:layout_below="@+id/viewholder_question_tags"
+        android:layout_alignStart="@+id/viewholder_question_tags"
+        android:text="Horst Huber"
         android:textColor="@color/colorGreyDark"
         android:textSize="12sp"
         tools:ignore="HardcodedText"/>
