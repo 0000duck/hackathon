@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.keba.keba.addQuestion.AddQuestionActivity;
 import com.keba.keba.backend.Backend;
@@ -59,12 +60,14 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
                         SearchResponse resp = response.body();
                         if (resp != null && resp.questions != null) {
                             recyclerViewAdapter.updateList(resp.questions);
+                        } else {
+                            Toast.makeText(StartActivity.this, "There are no questions! Everyone is happy :-)", Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<SearchResponse> call, Throwable t) {
-
+                        Toast.makeText(StartActivity.this, "Failed to query questsions...", Toast.LENGTH_SHORT).show();
                     }
                 });
 
