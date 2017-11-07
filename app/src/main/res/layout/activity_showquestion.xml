@@ -44,39 +44,26 @@
         android:src="@mipmap/ic_comment"/>
     
 
-    <TextView
-        android:id="@+id/activity_showQuestion_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/activity_showQuestion_appBar"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:gravity="center_vertical"
-        tools:ignore="HardcodedText"
-        android:text="title"
-        android:textColor="@color/colorBlack"
-        android:textSize="20sp"
-        android:textStyle="bold"/>
+
 
     <ScrollView
-        android:id="@+id/textAreaScroller"
+        android:id="@+id/activity_showQuestion_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/activity_showQuestion_title"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="15dp"
+        android:layout_below="@+id/activity_showQuestion_appBar"
+        android:layout_above="@+id/activity_showQuestion_comment"
         android:scrollbars="vertical">
 
-        <TextView
-            android:id="@+id/activity_showQuestion_bodyText"
+        <include
+            android:id="@+id/activity_showQuestion_question"
+            layout="@layout/view_question"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:layout_marginStart="20dp"
-            android:text="body"
-            android:textColor="@color/colorBlack"
-            android:textSize="16sp"
-            tools:ignore="HardcodedText"/>
+            android:layout_height="wrap_content"/>
+
+
+
 
     </ScrollView>
 
