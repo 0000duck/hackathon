@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.keba.keba.backend.Backend;
 import com.keba.keba.barcodeUtil.BarcodeIntentIntegrator;
 import com.keba.keba.barcodeUtil.BarcodeIntentResult;
 import com.keba.keba.data.Alarm;
@@ -49,7 +50,6 @@ public class DebugActivity extends AppCompatActivity {
     @BindView(R.id.button_currentDate) Button currentDate;
     @BindView(R.id.button_postAnswer) Button postAnswer;
     @BindView(R.id.editText_questionId) EditText questionId;
-    private RetrofitInterface retrofitInterface;
 
 
     @Override
@@ -121,12 +121,13 @@ public class DebugActivity extends AppCompatActivity {
         answer.title = "Start the machine.";
         answer.time = DateConverter.current();
         answer.langId = "en";
+        answer.author = "Bernhard5001";
         Body b = new Body();
         answer.body = b;
         b.content = "Press the button xyz in the mask abc.";
         b.mime = "text";
         NewAnswerRequest request = new NewAnswerRequest(questionId.getText().toString(), answer);
-        Call<ResponseBody> responseBodyCall = getLogic().newAnswer(request);
+        Call<ResponseBody> responseBodyCall = Backend.getInstance().newAnswer(request);
         responseBodyCall.enqueue(standardResponseHandler);
     }
 
@@ -134,17 +135,7 @@ public class DebugActivity extends AppCompatActivity {
         currentDate.setText(DateConverter.current());
     }
 
-    private RetrofitInterface getLogic() {
-        if (retrofitInterface == null) {
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.1.101/")
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
 
-            retrofitInterface = retrofit.create(RetrofitInterface.class);
-        }
-        return retrofitInterface;
-    }
 
     private void onClickCreateQuestion() {
         Body b = new Body();
@@ -160,8 +151,26 @@ public class DebugActivity extends AppCompatActivity {
         qr.alarm.time = "2017-11-06 03:23";
 
         Question q = new Question("SetByServer", Arrays.asList(new Tag("KePlast i5000"), new Tag("KePlast i8000")), 0, "How do you start the machine?", b, "Fabian123", new Date(), "en", qr);
-        Call<ResponseBody> responseBodyCall = getLogic().newQuestion(q);
-        responseBodyCall.enqueue(standardResponseHandler);
+        //Call<ResponseBody> responseBodyCall = Backend.getInstance().newQuestionResponseBody(q);
+        //responseBodyCall.enqueue(standardResponseHandler);
+
+        Call<Question> responseBodyCall = Backend.getInstance().newQuestion(q);
+        responseBodyCall.enqueue(new Callback<Question>() {
+            @Override
+            public void onResponse(Call<Question> call, Response<Question> response) {
+                if (response.body() != null) {
+                    Log.i("DebugActivity", response.body().toString());
+                    questionId.setText(response.body().id);
+                } else {
+                    questionId.setText("Failed to create question.");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Question> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -223,10 +232,10 @@ public class DebugActivity extends AppCompatActivity {
 
         AlarmRequest request = new AlarmRequest("en-US", alarm);
         Log.i("MainActivity", "Sending request\n" + request.toString());
-        //Call<ResponseBody> responseBodyCall = getLogic().queryByQRResponseBody(request);
+        //Call<ResponseBody> responseBodyCall = Backend.getInstance().queryByQRResponseBody(request);
         //responseBodyCall.enqueue(standardResponseHandler);
 
-        Call<SearchResponse> responseBodyCall = getLogic().queryByQR(request);
+        Call<SearchResponse> responseBodyCall = Backend.getInstance().queryByQR(request);
         responseBodyCall.enqueue(new Callback<SearchResponse>() {
             @Override
             public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {

@@ -1,7 +1,5 @@
 package com.keba.keba.data;
 
-import java.util.Date;
-
 /**
  * Created by spp on 07.11.2017.
  */
@@ -13,6 +11,6 @@ public class Answer {
     public String author;
     public String time;
     public boolean isAccepted;
-    public int id;
+    public String id;
     public String langId;
 }

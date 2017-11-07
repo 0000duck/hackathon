@@ -13,15 +13,29 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.keba.keba.backend.Backend;
 import com.keba.keba.barcodeUtil.BarcodeIntentIntegrator;
 import com.keba.keba.barcodeUtil.BarcodeIntentResult;
 import com.keba.keba.R;
+import com.keba.keba.data.Body;
+import com.keba.keba.data.QR;
+import com.keba.keba.data.Question;
+import com.keba.keba.data.Tag;
+
+import java.util.Arrays;
+import java.util.Date;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**
@@ -118,6 +132,29 @@ public class AddQuestionActivity extends AppCompatActivity {
         String bodyStr = questionBodyView.getText().toString();
         // qrStr
 
+        // String id, List<Tag> tags, int votes, String title, Body body, String author, Date time, String langId, QR qr
+        QR qr = null;
+        if (qrAttached) {
+            Gson gson = new GsonBuilder().create();
+            qr = gson.fromJson(qrStr, QR.class);
+        }
+        Body b = new Body();
+        b.mime = "text";
+        b.content = bodyStr;
+
+        Question question = new Question("ToTest", Arrays.<Tag>asList(), 0, titleStr, b, "User123", new Date(), "en", qr);
+        Call<Question> questionCall = Backend.getInstance().newQuestion(question);
+        questionCall.enqueue(new Callback<Question>() {
+            @Override
+            public void onResponse(Call<Question> call, Response<Question> response) {
+                Toast.makeText(AddQuestionActivity.this, "Added question.", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onFailure(Call<Question> call, Throwable t) {
+                Toast.makeText(AddQuestionActivity.this, "Failed to add question.", Toast.LENGTH_SHORT).show();
+            }
+        });
         this.finish();
     }
 
