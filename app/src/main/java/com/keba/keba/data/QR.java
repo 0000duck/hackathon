@@ -1,10 +1,12 @@
 package com.keba.keba.data;
 
+import java.io.Serializable;
+
 /**
  * Created by spp on 06.11.2017.
  */
 
-public class QR {
+public class QR  implements Serializable {
     // either be an alarm object
     public Alarm alarm;
 

@@ -1,10 +1,13 @@
 package com.keba.keba.data;
 
+import java.io.Serializable;
+
 /**
  * Created by spp on 07.11.2017.
  */
 
-public class Body {
+public class Body implements Serializable {
+
     public static final String MIME_PICTURE = "picture";
     public static final String MIME_VIDEO = "video";
     public static final String MIME_TEXT = "text";
