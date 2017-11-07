@@ -53,7 +53,7 @@
             android:name=".showQuestion.ShowQuestionActivity"
             android:label="Add Question"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:theme="@style/ThemeSwipeBack"/>
 
         <activity
             android:name=".video.AddVideoActivity"

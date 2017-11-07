@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:id="@+id/activity_showQuestion_layout">
 
     <LinearLayout
         android:id="@+id/activity_showQuestion_appBar"
@@ -50,20 +51,28 @@
         android:id="@+id/activity_showQuestion_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginEnd="15dp"
         android:layout_below="@+id/activity_showQuestion_appBar"
         android:layout_above="@+id/activity_showQuestion_comment"
         android:scrollbars="vertical">
 
-        <include
-            android:id="@+id/activity_showQuestion_question"
-            layout="@layout/view_question"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <include
+                android:id="@+id/activity_showQuestion_question"
+                layout="@layout/view_question"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
+            <include
+                android:id="@+id/activity_showQuestion_answer"
+                layout="@layout/view_answer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
+        </LinearLayout>
 
     </ScrollView>
 

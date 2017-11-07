@@ -4,13 +4,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/colorGreyExtraLight">
 
     <ImageView
         android:id="@+id/view_thumb_up"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="24dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_action_thumb_up"
         android:tint="@color/colorGrey"
@@ -50,10 +51,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:gravity="center_horizontal"
-        android:text="How to start the machine?"
+        android:text=""
         android:textColor="@color/colorBlack"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:textSize="2sp"
         app:layout_constraintStart_toEndOf="@+id/view_thumb_up"
         app:layout_constraintTop_toTopOf="parent"/>
 
