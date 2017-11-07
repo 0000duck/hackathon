@@ -43,8 +43,6 @@ import retrofit2.Response;
  */
 public class AddQuestionActivity extends AppCompatActivity {
 
-    static final int REQUEST_VIDEO_CAPTURE = 1;
-
     @BindView(R.id.activity_addquestion_save) Button saveButton;
     @BindView(R.id.activity_addquestion_edittitle) EditText questionTitleView;
     @BindView(R.id.activity_addquestion_editbody) EditText questionBodyView;
@@ -55,8 +53,6 @@ public class AddQuestionActivity extends AppCompatActivity {
     @BindView(R.id.activity_addquestion_attached_pictureText) TextView attachedPictureTextView;
     @BindView(R.id.activity_addquestion_attached_videoImg) ImageView attachedVideoImageView;
     @BindView(R.id.activity_addquestion_attached_videoText) TextView attachedVideoTextView;
-
-    @BindView(R.id.activity_addquestion_video) VideoView videoView;
 
     private boolean qrAttached = false;
     private boolean pictureAttached = false;
@@ -119,10 +115,10 @@ public class AddQuestionActivity extends AppCompatActivity {
 
     @OnClick(R.id.activity_addquestion_camera)
     public void onClickVideoButton(View view) {
-        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
-        }
+//        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+//        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
+//            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+//        }
     }
 
     @OnClick(R.id.activity_addquestion_save)
@@ -181,11 +177,6 @@ public class AddQuestionActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case REQUEST_VIDEO_CAPTURE: {
-                Uri videoUri = intent.getData();
-                videoView.setVideoURI(videoUri);
-                break;
-            }
         }
 
     }

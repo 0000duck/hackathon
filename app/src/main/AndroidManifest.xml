@@ -12,12 +12,18 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <activity android:name=".SplashActivity"
+                  android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+
         <activity
             android:name=".DebugActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
-
-
         </activity>
 
         <activity
@@ -31,15 +37,16 @@
             android:label="@string/app_name"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
 
         <activity
             android:name=".addQuestion.AddQuestionActivity"
+            android:label="Add Question"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
+        <activity
+            android:name=".showQuestion.ShowQuestionActivity"
             android:label="Add Question"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme.NoActionBar"/>
