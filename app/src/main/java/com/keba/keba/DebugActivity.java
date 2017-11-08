@@ -118,13 +118,13 @@ public class DebugActivity extends AppCompatActivity {
 
     private void onPostAnswer() {
         Answer answer = new Answer();
-        answer.title = "Start the machine.";
+        answer.title = "Known issue";
         answer.time = DateConverter.current();
         answer.langId = "en";
         answer.author = "Bernhard5001";
         Body b = new Body();
         answer.body = b;
-        b.content = "Press the button xyz in the mask abc.";
+        b.content = "This is a known issue in the latest KePlast i5000 version. Please enter a bug into the KEBA database.";
         b.mime = "text";
         NewAnswerRequest request = new NewAnswerRequest(questionId.getText().toString(), answer);
         Call<ResponseBody> responseBodyCall = Backend.getInstance().newAnswer(request);
@@ -140,17 +140,23 @@ public class DebugActivity extends AppCompatActivity {
     private void onClickCreateQuestion() {
         Body b = new Body();
         b.mime = "text";
-        b.content = "I really don't know how to start the machine. Which buttons do I need to press in order to start it? " +
-                "I mean this is not really easy to understand. Please help me!";
+        //b.content = "I really don't know how to start the machine. Which buttons do I need to press in order to start it? " +
+        //        "I mean this is not really easy to understand. Please help me!";
+
+        //b.content = "I've just encountered this alarm but I really don't know what to do. I tried the solution provided by the manufacturer but it still doesn't work. I must have missed something. Can someone please help me?";
+        b.content = "Why does my machine say I am running a test version?";
+
 
         QR qr = new QR();
         qr.alarm = new Alarm();
-        qr.alarm.id = "EnergyMeter1.erResponseTimeout";
-        qr.alarm.category = "WARNING";
-        qr.alarm.text = "No response from energy meter - communication to energy meter stopped.";
+        qr.alarm.id = "ExceptionInterpretation1.erNoFinalVersion";
+        qr.alarm.category = "INFO";
+        qr.alarm.text = "Test version of firmware package is running on CPU";
         qr.alarm.time = "2017-11-06 03:23";
 
-        Question q = new Question("SetByServer", Arrays.asList(new Tag("KePlast i5000"), new Tag("KePlast i8000")), 0, "How do you start the machine?", b, "Fabian123", new Date(), "en", qr);
+        //String title = "How can I fix the alarm EnergyMeter1.erResponseTimeout - manufacturer solution doesn't help!";
+        String title = "Testversion running?";
+        Question q = new Question("SetByServer", Arrays.asList(new Tag("KePlast i5000"), new Tag("KePlast i8000")), 0, title, b, "Fabian123", new Date(), "en", qr);
         //Call<ResponseBody> responseBodyCall = Backend.getInstance().newQuestionResponseBody(q);
         //responseBodyCall.enqueue(standardResponseHandler);
 
