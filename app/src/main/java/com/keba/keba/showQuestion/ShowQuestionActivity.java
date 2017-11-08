@@ -8,9 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.MediaController;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.keba.keba.R;
+import com.keba.keba.backend.Backend;
 import com.keba.keba.data.Question;
 import com.keba.keba.util.AvatarHelper;
 
@@ -42,8 +46,12 @@ public class ShowQuestionActivity extends AppCompatActivity {
     private TextView  answer1_dateView;
     private TextView  answer1_bodyView;
 
+    private RelativeLayout answer1_videoLayout;
+    private VideoView answer1_video;
+
     private LinearLayout qrResponseView;
 
+    private boolean firstRun = true;
 
 
     private Question question;
@@ -78,7 +86,8 @@ public class ShowQuestionActivity extends AppCompatActivity {
         answer1_avatarView = (ImageView) answerViewGroup.findViewById(R.id.view_avatar);
         answer1_dateView = (TextView) answerViewGroup.findViewById(R.id.view_date);
         answer1_bodyView = (TextView) answerViewGroup.findViewById(R.id.view_body);
-
+        answer1_videoLayout = (RelativeLayout) answerViewGroup.findViewById(R.id.view_video_bgd);
+        answer1_video = (VideoView) answerViewGroup.findViewById(R.id.view_video);
 
         // get task id
         Intent intent = getIntent();
@@ -100,6 +109,17 @@ public class ShowQuestionActivity extends AppCompatActivity {
         thumpDownView.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
                 voteDown();
+            }
+        });
+
+        answer1_thumpUpView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                answer1_voteUp();
+            }
+        });
+        answer1_thumpDownView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                answer1_voteDown();
             }
         });
 
@@ -214,16 +234,27 @@ public class ShowQuestionActivity extends AppCompatActivity {
         }
 
 
-        answer1_thumpUpView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                voteUp();
+
+        if(firstRun) {
+            if(!question.answers.get(0).body.mime.equals("video")) {
+                answer1_videoLayout.setVisibility(View.GONE);
+            } else {
+                answer1_videoLayout.setVisibility(View.VISIBLE);
+
+                answer1_video.setVideoPath("http://" + Backend.IP + question.answers.get(0).body.content);
+
+                MediaController mediaController = new MediaController(this);
+                mediaController.setAnchorView(answer1_video);
+                answer1_video.setMediaController(mediaController);
+
+                answer1_video.start();
             }
-        });
-        answer1_thumpDownView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                voteDown();
-            }
-        });
+            firstRun = false;
+        }
+
+
+
+
 
     }
 
