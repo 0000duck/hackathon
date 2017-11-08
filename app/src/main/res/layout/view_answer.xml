@@ -4,14 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/colorGreyExtraLight">
+    android:layout_height="match_parent">
 
     <ImageView
         android:id="@+id/view_thumb_up"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_marginStart="50dp"
+        android:layout_marginStart="24dp"
         android:layout_marginTop="16dp"
         android:src="@drawable/ic_action_thumb_up"
         android:tint="@color/colorGrey"
@@ -59,8 +58,8 @@
 
     <ImageView
         android:id="@+id/view_avatar"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginTop="4dp"
         android:src="@drawable/ic_action_avatar"
         app:layout_constraintStart_toStartOf="@+id/view_title"
@@ -70,26 +69,26 @@
         android:id="@+id/view_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginStart="5dp"
         android:gravity="center_horizontal"
         android:text="Horst Huber"
         android:textColor="@color/colorGreyDark"
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/view_avatar"
-        app:layout_constraintTop_toBottomOf="@+id/view_title"/>
+        app:layout_constraintBottom_toBottomOf="@+id/view_avatar"
+        app:layout_constraintStart_toEndOf="@+id/view_avatar"/>
 
     <TextView
         android:id="@+id/view_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="4dp"
         android:gravity="center_horizontal"
         android:text="26-09-2017"
         android:textColor="@color/colorGreyDark"
         android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view_title"/>
+        app:layout_constraintBottom_toTopOf="@+id/view_divider"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <View
         android:id="@+id/view_divider"

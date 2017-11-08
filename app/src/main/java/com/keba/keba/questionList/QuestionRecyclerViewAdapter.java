@@ -1,6 +1,7 @@
 package com.keba.keba.questionList;
 
 import android.content.Context;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.view.ViewGroup;
 import com.keba.keba.R;
 import com.keba.keba.data.Question;
 import com.keba.keba.data.Tag;
+import com.keba.keba.util.AvatarHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,9 +71,29 @@ public class QuestionRecyclerViewAdapter extends RecyclerView.Adapter<QuestionVi
 
         // tag text
         holder.scoreText.setText(String.valueOf(question.votes));
+        if(question.votes == 0) {
+            holder.scoreText.setTextColor(ContextCompat.getColor(context, R.color.colorBlack));
+            holder.scoreText.setBackgroundColor(ContextCompat.getColor(context, R.color.colorWhite));
+        } else if(question.votes < 0) {
+            holder.scoreText.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
+            holder.scoreText.setBackgroundColor(ContextCompat.getColor(context, R.color.colorRed));
+        } else {
+            holder.scoreText.setTextColor(ContextCompat.getColor(context, R.color.colorWhite));
+            holder.scoreText.setBackgroundColor(ContextCompat.getColor(context, R.color.colorGreen));
+        }
+
+
+
         holder.titleText.setText(question.title);
         holder.dateText.setText(question.time);
         holder.tagsText.setText(question.tags != null ? join(question.tags) : "");
+
+        // update avatar
+        AvatarHelper.addAvatar(holder.avatarView, question.author);
+
+
+
+
         holder.authorText.setText(question.author);
 
         holder.itemView.setTag((long)position);

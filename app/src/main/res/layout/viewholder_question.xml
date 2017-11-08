@@ -28,8 +28,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="3dp"
-        android:layout_toEndOf="@+id/viewholder_question_score"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="55dp"
+        android:layout_alignParentStart="true"
         android:text="Can we win the hackathon with our app?"
         android:textColor="@color/colorBlack"
         android:textSize="16sp"
@@ -47,26 +48,35 @@
         android:textSize="12sp"
         tools:ignore="HardcodedText"/>
 
-
-    <TextView
-        android:id="@+id/viewholder_question_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/viewholder_question_avatar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="3dp"
         android:layout_below="@+id/viewholder_question_tags"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
-        android:text="Tue, 7-11-2017"
-        android:textColor="@color/colorGreyDark"
-        android:textSize="12sp"
-        tools:ignore="HardcodedText"/>
+        android:layout_alignStart="@+id/viewholder_question_title"
+        android:src="@drawable/bernhard5001"/>
 
     <TextView
         android:id="@+id/viewholder_question_author"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/viewholder_question_tags"
-        android:layout_alignStart="@+id/viewholder_question_tags"
+        android:layout_alignBottom="@+id/viewholder_question_avatar"
+        android:layout_toEndOf="@+id/viewholder_question_avatar"
+        android:layout_marginStart="5dp"
         android:text="Horst Huber"
+        android:textColor="@color/colorGreyDark"
+        android:textSize="14sp"
+        tools:ignore="HardcodedText"/>
+
+    <TextView
+        android:id="@+id/viewholder_question_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/viewholder_question_avatar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp"
+        android:text="Tue, 7-11-2017"
         android:textColor="@color/colorGreyDark"
         android:textSize="12sp"
         tools:ignore="HardcodedText"/>

@@ -2,6 +2,7 @@ package com.keba.keba.questionList;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.keba.keba.R;
@@ -19,6 +20,7 @@ public class QuestionViewHolder extends RecyclerView.ViewHolder implements View.
     @BindView(R.id.viewholder_question_date) TextView dateText;
     @BindView(R.id.viewholder_question_tags) TextView tagsText;
     @BindView(R.id.viewholder_question_author) TextView authorText;
+    @BindView(R.id.viewholder_question_avatar) ImageView avatarView;
 
     private QuestionItemClickListener questionItemClickListener;
 
