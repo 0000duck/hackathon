@@ -47,6 +47,6 @@ public interface RetrofitInterface {
     @POST("/a1")
     Call<ResponseBody> newAnswer(@Body NewAnswerRequest request);
 
-    @GET("/all1")
+    @GET("/all2")
     Call<AllResponse> allQuestions();
 }

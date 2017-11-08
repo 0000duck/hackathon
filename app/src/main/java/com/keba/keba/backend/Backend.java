@@ -1,7 +1,16 @@
 package com.keba.keba.backend;
 
+import android.util.Log;
+
 import com.keba.keba.RetrofitInterface;
 
+import java.io.IOException;
+import java.util.concurrent.TimeUnit;
+
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,8 +27,13 @@ public class Backend {
 
     public static RetrofitInterface getInstance() {
         if (retrofitInterface == null) {
+            final OkHttpClient okHttpClient = new OkHttpClient.Builder()
+                    .connectTimeout(2, TimeUnit.SECONDS)
+                    .build();
+
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("http://" + IP + "/")
+                    .client(okHttpClient)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
 

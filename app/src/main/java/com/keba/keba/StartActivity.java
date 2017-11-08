@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -71,6 +72,7 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
         progressBar.setVisibility(View.VISIBLE);
         Backend.getInstance().allQuestions()
                 .enqueue(new Callback<AllResponse>() {
+                    int retry = 0;
                     @Override
                     public void onResponse(Call<AllResponse> call, Response<AllResponse> response) {
                         AllResponse resp = response.body();
@@ -79,14 +81,20 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
                         } else {
                             Toast.makeText(StartActivity.this, "There are no questions! Everyone is happy :-)", Toast.LENGTH_SHORT).show();
                         }
-
                         progressBar.setVisibility(View.GONE);
                     }
 
                     @Override
                     public void onFailure(Call<AllResponse> call, Throwable t) {
-                        progressBar.setVisibility(View.GONE);
-                        Toast.makeText(StartActivity.this, "Failed to query questsions...", Toast.LENGTH_SHORT).show();
+                        Log.e("StartActivity", t != null && t.getMessage() != null ? t.getMessage() : "<None>");
+                        t.printStackTrace();
+                        retry++;
+                        if (retry < 5) {
+                            call.clone().enqueue(this);
+                        } else {
+                            progressBar.setVisibility(View.GONE);
+                            Toast.makeText(StartActivity.this, "Failed to query questions...", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
 
@@ -178,12 +186,15 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
                             qr = gson.fromJson(qrScanStr, QR.class);
                         }
 
+                        progressBar.setVisibility(View.VISIBLE);
                         Backend.getInstance().queryByQR(new AlarmRequest("en", qr))
                                 .enqueue(new Callback<SearchResponse>() {
+                                    int retry = 0;
                                     @Override
                                     public void onResponse(Call<SearchResponse> call, Response<SearchResponse> response) {
                                         SearchResponse resp = response.body();
                                         if (resp != null && resp.questions != null) {
+                                            progressBar.setVisibility(View.GONE);
                                             updateList(resp.questions);
                                         }
                                     }
@@ -191,7 +202,13 @@ public class StartActivity extends AppCompatActivity implements QuestionItemClic
                                     @Override
                                     public void onFailure(Call<SearchResponse> call, Throwable t) {
                                         t.printStackTrace();
-
+                                        retry++;
+                                        if (retry < 5) {
+                                            call.clone().enqueue(this);
+                                        } else {
+                                            progressBar.setVisibility(View.GONE);
+                                            Toast.makeText(StartActivity.this, "Failed to query questions...", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 });
                     }
