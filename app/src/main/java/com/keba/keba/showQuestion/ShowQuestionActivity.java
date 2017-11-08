@@ -1,6 +1,8 @@
 package com.keba.keba.showQuestion;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -45,6 +47,7 @@ public class ShowQuestionActivity extends AppCompatActivity {
     private ImageView answer1_avatarView;
     private TextView  answer1_dateView;
     private TextView  answer1_bodyView;
+    private ImageView answer1_doneView;
 
     private RelativeLayout answer1_videoLayout;
     private VideoView answer1_video;
@@ -58,6 +61,9 @@ public class ShowQuestionActivity extends AppCompatActivity {
 
     private int deltaThump = 0;
     private int answer1_deltaThump = 0;
+
+
+    private boolean answerAccepted = false;
 
 
     @Override protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +83,7 @@ public class ShowQuestionActivity extends AppCompatActivity {
         dateView = (TextView) questionViewGroup.findViewById(R.id.view_date);
         bodyView = (TextView) questionViewGroup.findViewById(R.id.view_body);
 
+
         qrResponseView = (LinearLayout) questionViewGroup.findViewById(R.id.view_qr);
 
         answer1_thumpUpView = (ImageView) answerViewGroup.findViewById(R.id.view_thumb_up);
@@ -88,6 +95,7 @@ public class ShowQuestionActivity extends AppCompatActivity {
         answer1_bodyView = (TextView) answerViewGroup.findViewById(R.id.view_body);
         answer1_videoLayout = (RelativeLayout) answerViewGroup.findViewById(R.id.view_video_bgd);
         answer1_video = (VideoView) answerViewGroup.findViewById(R.id.view_video);
+        answer1_doneView = (ImageView) answerViewGroup.findViewById(R.id.view_done);
 
         // get task id
         Intent intent = getIntent();
@@ -209,6 +217,8 @@ public class ShowQuestionActivity extends AppCompatActivity {
         }
 
 
+
+
         answerViewGroup.setVisibility(View.VISIBLE);
 
         answer1_authorView.setText(question.answers.get(0).author);
@@ -232,25 +242,78 @@ public class ShowQuestionActivity extends AppCompatActivity {
         }
 
 
+        answer1_doneView.setOnClickListener(new View.OnClickListener() {
+            @Override public void onClick(View v) {
+                answerAccepted = !answerAccepted;
+                if(answerAccepted) {
+                    answer1_doneView.setImageResource(R.mipmap.ic_done_green);
+                } else {
+                    answer1_doneView.setImageResource(R.mipmap.ic_done_grey);
+                }
+            }
+        });
+
+
 
         if(firstRun) {
+            if(question.answers.get(0).isAccepted) {
+                answerAccepted = true;
+                answer1_doneView.setImageResource(R.mipmap.ic_done_green);
+            } else {
+                answer1_doneView.setImageResource(R.mipmap.ic_done_grey);
+                answerAccepted = false;
+            }
+
+
+
             if(!question.answers.get(0).body.mime.equals("video")) {
                 answer1_videoLayout.setVisibility(View.GONE);
                 answer1_bodyView.setText(question.answers.get(0).body.content);
             } else {
                 answer1_bodyView.setText("");
 
-                answer1_videoLayout.setVisibility(View.VISIBLE);
 
-                answer1_video.setVideoPath("http://" + Backend.IP + question.answers.get(0).body.content);
+                final View progressBar = (View) answerViewGroup.findViewById(R.id.view_progressBar);
+                final View playButton = (View) answerViewGroup.findViewById(R.id.view_video_playButton);
+                final View playLayout = (View) answerViewGroup.findViewById(R.id.view_video_playLayout);
 
-                //MediaController mediaController = (MediaController) answerViewGroup.findViewById(R.id.view_mediaController);
 
-                MediaController mediaController = new MediaController(this);
-                mediaController.setAnchorView(answer1_video);
-                answer1_video.setMediaController(mediaController);
+                playButton.setOnClickListener(new View.OnClickListener() {
+                    @Override public void onClick(View v) {
 
-                answer1_video.start();
+                        playLayout.setVisibility(View.GONE);
+
+                        answer1_videoLayout.setVisibility(View.VISIBLE);
+                        answer1_video.setVideoPath("http://" + Backend.IP + question.answers.get(0).body.content);
+
+                        MediaController mediaController = new MediaController(ShowQuestionActivity.this);
+                        mediaController.setAnchorView(answer1_video);
+                        answer1_video.setMediaController(mediaController);
+
+                        final View progressBar = (View) answerViewGroup.findViewById(R.id.view_progressBar);
+
+                        answer1_video.requestFocus();
+                        //we also set an setOnPreparedListener in order to know when the video file is ready for playback
+                        answer1_video.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+
+                            public void onPrepared(MediaPlayer mediaPlayer) {
+                                // close the progress bar and play the video
+                                progressBar.setVisibility(View.GONE);
+                                //if we have a position on savedInstanceState, the video playback should start from here
+                                answer1_video.seekTo(0);
+                                answer1_video.start();
+
+                            }
+                        });
+
+                    }
+                });
+
+
+
+
+
+
             }
             firstRun = false;
         }
