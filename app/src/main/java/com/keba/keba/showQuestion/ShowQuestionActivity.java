@@ -203,8 +203,6 @@ public class ShowQuestionActivity extends AppCompatActivity {
 
     private void updateAnswer() {
 
-
-
         if(question.answers == null || question.answers.size() == 0) {
             answerViewGroup.setVisibility(View.GONE);
             return;
@@ -215,7 +213,7 @@ public class ShowQuestionActivity extends AppCompatActivity {
 
         answer1_authorView.setText(question.answers.get(0).author);
         answer1_dateView.setText(question.answers.get(0).time);
-        answer1_bodyView.setText(question.answers.get(0).body.content);
+
 
         // update avatar
         AvatarHelper.addAvatar(answer1_avatarView, question.answers.get(0).author);
@@ -238,10 +236,15 @@ public class ShowQuestionActivity extends AppCompatActivity {
         if(firstRun) {
             if(!question.answers.get(0).body.mime.equals("video")) {
                 answer1_videoLayout.setVisibility(View.GONE);
+                answer1_bodyView.setText(question.answers.get(0).body.content);
             } else {
+                answer1_bodyView.setText("");
+
                 answer1_videoLayout.setVisibility(View.VISIBLE);
 
                 answer1_video.setVideoPath("http://" + Backend.IP + question.answers.get(0).body.content);
+
+                //MediaController mediaController = (MediaController) answerViewGroup.findViewById(R.id.view_mediaController);
 
                 MediaController mediaController = new MediaController(this);
                 mediaController.setAnchorView(answer1_video);
